@@ -1,0 +1,66 @@
+void setup() {
+  switch_init();
+  PWM_init();
+  relay_init();
+  Serial.begin(115200);
+}
+
+void(* resetFunc) (void) = 0; //declare reset function @ address 0
+
+void loop() {
+  currentTime = micros();
+  cycleTime = currentTime - previousTime;
+  previousTime = currentTime;
+
+  if(currentTime > taskTime1s){
+    taskTime1s = currentTime + 1000000;
+    if(read_switch(SWITCH_PIN)){
+      mission = 2;
+    }
+    else{
+//      mission = 
+    }
+//    if(read_switch(BUTTON_A)){
+//      mission = 2;
+//    }
+//    if(read_switch(BUTTON_B)){
+//      relay_off(RELAY_1);
+//      relay_off(RELAY_2);
+//      relay_on(RELAY_1);
+//      delay(1000);
+//      resetFunc();
+//    }
+  }
+
+  if(currentTime > taskTime50Hz){ //50 Hz task
+    taskTime50Hz = currentTime + 20000;    
+    computeRC();
+  }
+
+  if(RC_Command[board_trig] > 1800 && mission == 0){
+    mission = 1;    
+    PWM_write(CH8_Brake, PWM_HIGH);
+    delay(10);
+    relay_on(RELAY_2);
+    delay(5000);
+    PWM_write(CH7_MotorInterlock, PWM_LOW);
+    delay(10);
+    relay_on(RELAY_1);
+  }
+  else if(mission == 2){
+    mission = 3;
+    delay(10000);
+    PWM_write(CH7_MotorInterlock, PWM_HIGH);    
+    delay(10);
+    relay_off(RELAY_1);
+    delay(5000);
+    PWM_write(CH8_Brake, PWM_LOW);
+    delay(10);
+    relay_off(RELAY_2);
+  }
+  else{
+    PWM_write(CH7_MotorInterlock, RC_Command[remote_trig]);
+  }
+  Serial.println(RC_Command[board_trig]);
+//    Serial.println("aaa");
+}
