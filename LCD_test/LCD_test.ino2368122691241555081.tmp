@@ -1,0 +1,39 @@
+// Reset a SparkFun Serial LCD (16*2) 
+// Bob Stephens 03/06/2009 
+// ------------------------------------------------------------------------------- 
+
+void resetLCD(); 
+void setSplash(); 
+
+
+// -------------------------------------------------------- 
+void setup() 
+{ 
+// start serial port 
+Serial.begin(9600); // open serial 
+// setSplash(); 
+} 
+
+// -------------------------------------------------------- 
+void loop() 
+{ 
+resetLCD(); 
+} 
+
+void resetLCD() { 
+//Serial.print(0x07, byte); 
+//Serial.print(18, byte); 
+} 
+
+void setSplash() { 
+//clearLCD(); 
+//goTo(3); 
+Serial.print("Some text"); 
+//goTo(17); 
+Serial.print("Second line"); 
+delay(100); 
+//Serial.print(0x7C, byte); 
+//Serial.print(10, byte); 
+delay(5000); 
+//clearLCD(); 
+}
