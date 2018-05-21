@@ -8,8 +8,8 @@
 HX711 scale1(DOUT1, CLK1); 
 HX711 scale2(DOUT2, CLK2); 
 
-float calibration_factor1 = 23.5; //49
-float calibration_factor2 = 24.3; //47.5
+float calibration_factor1 = 24.1; //49
+float calibration_factor2 = 24.4; //47.5
 
 int dataIn = 11; //Blue
 int clockIn = 12; //Purple
@@ -34,6 +34,10 @@ void setup() {
   scale2.set_scale(calibration_factor2);
 
 //  digitalWrite(13,HIGH);
+
+scale1.set_scale();
+  scale1.tare();  //Reset the scale1 to 0
+  scale1.set_scale(calibration_factor1);
 }
 
 void loop(){

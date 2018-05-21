@@ -17,6 +17,9 @@ float ratio;
 
 void setup() {
   Serial.begin(9600);
+  pinMode(13, OUTPUT);
+  digitalWrite(13, HIGH);
+  
   pinMode(pin_slk, OUTPUT);
   pinMode(pin_dout, INPUT);
 
@@ -25,6 +28,7 @@ void setup() {
   digitalWrite(pin_slk, LOW);
 
   for(int i = 0; i < avg_num; i++){
+//    Serial.println("aaa");
   while (digitalRead(pin_dout))
     ;
 
@@ -53,6 +57,8 @@ void setup() {
 
   ratio = (w1-offset)/w2;
   Serial.println(ratio);
+
+  Serial.println("Start");
 }
 
 void loop() {
